@@ -37,6 +37,7 @@
         defined(LFS_YES_TRACE)
 #include <stdio.h>
 #endif
+#include "bafama_debug.h"
 
 #ifdef __cplusplus
 extern "C"
@@ -48,42 +49,43 @@ extern "C"
 // macros must not have side-effects as the macros can be removed for a smaller
 // code footprint
 
+
 // Logging functions
 #ifdef LFS_YES_TRACE
 #define LFS_TRACE_(fmt, ...) \
-    printf("%s:%d:trace: " fmt "%s\n", __FILE__, __LINE__, __VA_ARGS__)
-#define LFS_TRACE(...) LFS_TRACE_(__VA_ARGS__, "")
+    BAFAMA_LOG_DIRECT("%s:%d:trace: " fmt "\n", __FILE__, __LINE__, __VA_ARGS__)
+#define LFS_TRACE(fmt, ...) LFS_TRACE_(fmt, __VA_ARGS__)
 #else
 #define LFS_TRACE(...)
 #endif
 
 #ifndef LFS_NO_DEBUG
 #define LFS_DEBUG_(fmt, ...) \
-    printf("%s:%d:debug: " fmt "%s\n", __FILE__, __LINE__, __VA_ARGS__)
-#define LFS_DEBUG(...) LFS_DEBUG_(__VA_ARGS__, "")
+    BAFAMA_LOG_DIRECT("%s:%d:debug: " fmt "\n", __FILE__, __LINE__, __VA_ARGS__)
+#define LFS_DEBUG(fmt, ...) LFS_DEBUG_(fmt, __VA_ARGS__)
 #else
 #define LFS_DEBUG(...)
 #endif
 
 #ifndef LFS_NO_WARN
 #define LFS_WARN_(fmt, ...) \
-    printf("%s:%d:warn: " fmt "%s\n", __FILE__, __LINE__, __VA_ARGS__)
-#define LFS_WARN(...) LFS_WARN_(__VA_ARGS__, "")
+    BAFAMA_LOG_DIRECT("%s:%d:warn: " fmt "\n", __FILE__, __LINE__, __VA_ARGS__)
+#define LFS_WARN(fmt, ...) LFS_WARN_(fmt, __VA_ARGS__)
 #else
 #define LFS_WARN(...)
 #endif
 
 #ifndef LFS_NO_ERROR
 #define LFS_ERROR_(fmt, ...) \
-    printf("%s:%d:error: " fmt "%s\n", __FILE__, __LINE__, __VA_ARGS__)
-#define LFS_ERROR(...) LFS_ERROR_(__VA_ARGS__, "")
+    BAFAMA_LOG_DIRECT("%s:%d:error: " fmt "\n", __FILE__, __LINE__, __VA_ARGS__)
+#define LFS_ERROR(fmt, ...) LFS_ERROR_(fmt, __VA_ARGS__)
 #else
 #define LFS_ERROR(...)
 #endif
 
 // Runtime assertions
 #ifndef LFS_NO_ASSERT
-#define LFS_ASSERT(test) assert(test)
+#define LFS_ASSERT(x) BAFAMA_ASSERT()
 #else
 #define LFS_ASSERT(test)
 #endif
